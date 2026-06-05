@@ -12,3 +12,50 @@ In this section, we present a high-level workflow of our approach.
 \end{figure}
 
 \subsection{bbb}
+
+
+
+\begin{figure*}[t]
+	\centering
+      \begin{subfigure}{0.505\linewidth}   
+     \begin{subfigure}{\linewidth} 
+	\lstset{style=mystyle, numbers = left, xleftmargin=2em,frame=single,framexleftmargin=1.5em}
+	\lstinputlisting[morekeywords={Object, String, bool},basewidth=0.52em]{./code/moti-mutant.c}
+     \end{subfigure}
+
+     \vspace*{-4pt}
+     \quad\quad\quad\quad \quad\quad\quad\quad \quad\quad\quad\quad $\boldsymbol{\downarrow}$ \textit{\texttt{compiled to}} \\
+     \vspace*{-4pt}
+     
+     \begin{subfigure}{\linewidth} 
+	\lstset{style=mystyle, numbers = left, xleftmargin=2em,frame=single,framexleftmargin=1.5em}
+	\lstinputlisting[morekeywords={Object, String, bool},basewidth=0.52em]{./code/moti-mutantcompiled.c}
+	
+    \end{subfigure}
+     \caption{}    
+     \label{fig:moti:ori}
+    \end{subfigure}
+    \vspace*{-5pt}
+    \,
+    \begin{subfigure}{0.475\linewidth} 
+     \begin{subfigure}{\linewidth} 
+	\lstset{style=mystyle, numbers = left, xleftmargin=2em,frame=single,framexleftmargin=1.5em}
+	\lstinputlisting[morekeywords={Object, String, bool},basewidth=0.52em]{./code/moti-seed.c}
+     \end{subfigure}
+     
+      \vspace*{-4pt}
+     \quad\quad\quad\quad \quad\quad\quad\quad \quad\quad\quad\quad $\boldsymbol{\downarrow}$ \textit{\texttt{compiled to}} \\
+     \vspace*{-4pt}
+     
+     \begin{subfigure}{\linewidth} 
+	\lstset{style=mystyle, numbers = left, xleftmargin=2em,frame=single,framexleftmargin=1.5em}
+	\lstinputlisting[morekeywords={Object, String, bool},basewidth=0.52em]{./code/moti-seedcompiled.c}
+     \end{subfigure}
+ 	\caption{}
+	\label{fig:moti:mut}
+    \end{subfigure}
+    \vspace*{-5pt}
+	\caption{placehoolder}
+\vspace{-4pt}
+	\label{fig:moti}
+\end{figure*}
