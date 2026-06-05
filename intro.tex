@@ -1,7 +1,7 @@
 
 \section{Introduction}
 
-The rapid advancement of large-scale code generation models (LCGMs) has enabled them to address a broad range of general programming tasks~\cite{chen2021evaluating, openai2023gpt4, team2023gemini, touvron2023llama2}. Although these advances are promising, they also raise critical concerns regarding performance evaluation. A benchmark that enables accurate and objective assessment is indispensable for both users and developers. Consequently, numerous benchmarks have been introduced~\cite{chen2021evaluating, jain2024livecodebench, zhuo2024bigcodebench}, most of which rely on static, ground-truth-based evaluation.
+The rapid advancement of large-scale code generation models (LCGMs) has enabled them to address a broad range of general programming tasks ~\cite{chen2021evaluating, openai2023gpt4, team2023gemini, touvron2023llama2}. Although these advances are promising, they also raise critical concerns regarding performance evaluation. A benchmark that enables accurate and objective assessment is indispensable for both users and developers. Consequently, numerous benchmarks have been introduced ~\cite{chen2021evaluating, jain2024livecodebench, zhuo2024bigcodebench}, most of which rely on static, ground-truth-based evaluation.
 
 \subsection{Data Contamination}
 
@@ -24,6 +24,7 @@ To address these limitations, we introduce \tool{}, an automated pipeline for ad
 
 
 \hzbc{Put challenge here better or 2.1???    Here I will supply the criteria the quality of the mutated task }
-It is clear that the main challenge lies in the first step---how can we ensure that the mutated task is able to mitigate data contamination? One straightforward approach would be to ask the model to generate a program together with the problem statement and test cases directly. However, this would raise several issues: the generated test cases may be inconsistent with the code, the problem description may be ambiguous, and the resulting tasks may be either too easy or computationally infeasible. Instead, we pursue an alternative route: we mutate an existing verified solution and derive the new task and test cases directly from the mutated code. This guarantees consistency and tractability by construction.
+It is clear that the main challenge lies in the first step---how can we ensure that the mutated task is able to mitigate data contamination? .....
+
 
 \label{sec:intro}
