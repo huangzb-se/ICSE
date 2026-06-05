@@ -1,0 +1,9 @@
+def fun(str):
+    new_text = ""
+    ...
+    if end - start > 2:
+        new_text += "-" + text[i]
+    else:
+        new_text += "_" * (end - start) +text[i]
+    ...
+    return new_text

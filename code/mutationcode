@@ -1,0 +1,9 @@
+def fun_mutation(str):
+    new_text, cnt = "", 0
+    ...
+     if cnt > 2:
+         new_text += "=" if dev > mad else "-"
+     else:
+         new_text += ("*" if dev > mad else "_")* cnt
+    ...
+    return new_text

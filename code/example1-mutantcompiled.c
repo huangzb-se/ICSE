@@ -1,6 +1,0 @@
-size_t mutant_o(size_t size, size_t alignment) {@\Suppressnumber@ 
-  ...@\Reactivatenumber{7}@  
-  x = (unsigned)((63 - __builtin_clzll(x)));
-  size_t lg_delta = x - SC_LG_NGROUP - 1; ...@\Suppressnumber@ 
-@\Reactivatenumber{9}@
-}

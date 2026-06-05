@@ -1,0 +1,108 @@
+{
+    // LaTeX Workshop configuration for ICSE paper
+    "latex-workshop.latex.autoBuild.run": "never",
+    "latex-workshop.latex.outDir": "%DIR%",
+    
+    // Define LaTeX compilation tools
+    "latex-workshop.latex.tools": [
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "%DOCFILE%"
+            ]
+        }
+    ],
+    
+    // Define compilation recipes
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "pdflatex -> bibtex -> pdflatex*2",
+            "tools": [
+                "pdflatex",
+                "bibtex",
+                "pdflatex",
+                "pdflatex"
+            ]
+        },
+        {
+            "name": "pdflatex",
+            "tools": [
+                "pdflatex"
+            ]
+        }
+    ],
+    
+    // Default recipe
+    "latex-workshop.latex.recipe.default": "lastUsed",
+    
+    // Files to clean up
+    "latex-workshop.latex.clean.fileTypes": [
+        "*.aux",
+        "*.bbl",
+        "*.blg",
+        "*.idx",
+        "*.ind",
+        "*.lof",
+        "*.lot",
+        "*.out",
+        "*.toc",
+        "*.acn",
+        "*.acr",
+        "*.alg",
+        "*.glg",
+        "*.glo",
+        "*.gls",
+        "*.fls",
+        "*.log",
+        "*.fdb_latexmk",
+        "*.snm",
+        "*.synctex(busy)",
+        "*.synctex.gz(busy)",
+        "*.nav",
+        "*.vrb",
+        "*.synctex.gz",
+        "*.run.xml",
+        "*.bcf"
+    ],
+    
+    // Auto-clean auxiliary files after build
+    "latex-workshop.latex.autoClean.run": "onFailed",
+    
+    // Forward/Reverse SyncTeX
+    "latex-workshop.viewer.pdf.internal.keyboardEvent": "auto",
+    "latex-workshop.synctex.afterBuild.enabled": true,
+    
+    // ChkTeX linter (optional, disable if too noisy)
+    "latex-workshop.linting.chktex.enabled": false,
+    "latex-workshop.linting.chktex.exec.path": "chktex",
+    "latex-workshop.linting.chktex.exec.args": [
+        "-wall",
+        "-n22",
+        "-n30",
+        "-e16",
+        "-q"
+    ],
+    
+    // File associations
+    "files.associations": {
+        "*.tex": "latex"
+    },
+    
+    // Editor settings for LaTeX
+    "[latex]": {
+        "editor.wordWrap": "on",
+        "editor.formatOnSave": false,
+        "editor.renderWhitespace": "boundary"
+    }
+}

@@ -1,0 +1,56 @@
+\begin{table*}[t!]
+    \centering
+    \caption{The effectiveness evaluation on the HumanEval dataset.}
+    \label{tab:rq1Humaneval}
+    \resizebox{\linewidth}{!}{
+        \begin{NiceTabular}{lccccccccc} 
+        \CodeBefore
+            \rowcolors{4}{}{blue!8}
+        \Body
+    \toprule
+    \toprule
+    \textbf{Methods} & \multicolumn{3}{c}{\textbf{Qwen2.5-14B-instruct}} & \multicolumn{3}{c}{\textbf{Phi4}} & \multicolumn{3}{c}{\textbf{Gemma2-27B}} \\
+    \cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+    & \textbf{Before} & \textbf{After} &\textbf{Correlation} & \textbf{Before} & \textbf{After} & \textbf{Correlation} &\textbf{Before} & \textbf{After} &\textbf{Correlation} \\
+    \midrule
+    \textbf{Base} & 0.69 & 0.77 & 0.5351 & 0.76 & 0.77 & 0.6877 & 0.70 & 0.70 & 0.9259 \\
+    \textbf{PPM}       & 0.62+ & 0.62+ (-19.5\%) & - & 0.8469 & 0.8745 (+13.6\%) & - & 0.6683 & 0.6372 \textbf{(-9.0\%)} & - \\
+    \textbf{TED ($\tau=2$)}  & 0.70 & 0.64 (-16.9\%) & 0.4816 (-10.0\%) & 0.8469 & 0.8669 (+12.6\%) & 0.8355 (+21.5\%) & 0.6750 & 0.6751 (-3.6\%) & 0.9535 (+3.0\%) \\
+    \midrule
+    \textbf{Our Tool}  & 0.58 & 0.60 \textbf{(-22.1\%)} & \textbf{0.9666 (+80.7\%)} & 0.57 & 0.58 \textbf{(-24.7\%)} & \textbf{0.9915 (+44.2\%)} & 0.64 & 0.66 (-5.7\%) & \textbf{0.9885 (+6.8\%)} \\
+    \bottomrule
+    \bottomrule
+
+    \toprule
+    \toprule
+    \textbf{Methods} & \multicolumn{3}{c}{\textbf{Qwen3-14B}} & \multicolumn{3}{c}{\textbf{Qwen2.5-7B-Instruct}} & \multicolumn{3}{c}{\textbf{DeepSeek-coder-14B-Preview}} \\
+    \cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+    & \textbf{Before} & \textbf{After} &\textbf{Correlation} & \textbf{Before} & \textbf{After} &\textbf{Correlation} & \textbf{Before} & \textbf{After} &\textbf{Correlation} \\
+    \midrule
+    \textbf{Base} & 0.8714 & 0.9015 & 0.9502 & 0.6904 & 0.7135 & 0.8698 & 0.56 & - & - \\
+    \textbf{PPM}       & 0.8385 & 0.7875 \textbf{(-12.6\%)} & - & - & - & - & - & - & - \\
+    \textbf{TED ($\tau=2$)}  & 0.8633 & 0.8054 (-10.7\%) & 0.5649 (-40.5\%) & - & - & - & - & - & - \\
+    \midrule
+    \textbf{Our Tool}  & 0.8295 & 0.8307 (-7.9\%) & \textbf{0.9748 (+2.6\%)} & 0.4510 & 0.4587 \textbf{(-35.7\%)} & \textbf{0.9829 (+13.0\%)} & - & - & - \\
+    \bottomrule
+    \bottomrule
+
+    \toprule
+    \toprule
+    \textbf{Methods} & \multicolumn{3}{c}{\textbf{StarCoder2-7B}} & \multicolumn{3}{c}{\textbf{Phi-3}} & \multicolumn{3}{c}{\textbf{Yi-Coder-9B}} \\
+    \cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+    & \textbf{Before} & \textbf{After} &\textbf{Correlation} & \textbf{Before} & \textbf{After} &\textbf{Correlation} & \textbf{Before} & \textbf{After} &\textbf{Correlation} \\
+    \midrule
+    \textbf{Base} & - & - & - & 0.5247 & 0.5158 & 0.9426 & 0.7471 & 0.7433 & 0.9459 \\
+    \midrule
+    \textbf{Our Tool}  & - & - & - & 0.3393 & 0.3489 \textbf{(-32.4\%)} & \textbf{0.9793 (+3.9\%)} & 0.5688 & 0.5622 \textbf{(-24.4\%)} & \textbf{0.9761 (+3.2\%)} \\
+    \bottomrule
+    \bottomrule
+    \end{NiceTabular}
+    }
+
+\begin{flushleft}
+The data in the table represents the model's Pass@1 score for the corresponding evaluation method; “Before” and “After” indicate whether the model has been fine-tuned. \\
+\emph{Note:} Percentages in parentheses represent change relative to Base (After/Correlation). For Pass@1, negative = better (lower). For Correlation, positive = better (higher). \textbf{Bold} indicates the best performance among PPM, TED($\tau=2$), and Our Tool for each metric.
+\end{flushleft}
+\end{table*}

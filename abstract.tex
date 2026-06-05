@@ -1,6 +1,1 @@
-
-\begin{abstract}
-
-placeholder
-
-\end{abstract}
+The rapid progress of large-scale code generation models has intensified the need for trustworthy benchmarks. Existing static benchmarks are increasingly vulnerable to data contamination, because their tasks and canonical solutions can be absorbed into training corpora, inflating reported accuracy without reflecting genuine reasoning ability. We introduce \tool{}, an LLM-driven dynamic benchmarking framework that alleviates this problem by automatically mutating seed programming tasks into semantically related yet functionally distinct variants. Given an existing benchmark task, \tool{} prompts an \emph{Attacker} model to refactor the canonical solution, constructs a new task statement grounded in executable test cases, and then evaluates a set of \emph{Defender} models on the mutated tasks. The resulting adversarial setup provides a moving target for data-contaminated models while remaining fair to models that generalize. We further derive an Elo-based holistic rating that consolidates both the problem-solving and problem-generation abilities of each model. Experiments on HumanEval and Codeforces-derived tasks show that \tool{} substantially reduces the performance inflation caused by fine-tuning on leaked data and produces evaluation scores that correlate far more closely with a model's uncontaminated capability than prior static or perturbation-based baselines.

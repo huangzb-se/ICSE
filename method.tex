@@ -1,61 +1,257 @@
-\section{Methodology}
-
-In this section, we present a high-level workflow of our approach. 
-
-\subsection{Workflow}
-\begin{figure}[t!]
-	\captionsetup{skip=5pt}
-	\centering
-	\includegraphics[width=\textwidth]{pics/workflow.pdf}
-	\caption{\tool's workflow.}
-	\label{fig:keycom}
-\end{figure}
-
-\subsection{bbb}
-
-
+\section{Motivation Example}
 
 \begin{figure*}[t]
-	\centering
-      \begin{subfigure}{0.505\linewidth}   
-     \begin{subfigure}{\linewidth} 
-	\lstset{style=mystyle, numbers = left, xleftmargin=2em,frame=single,framexleftmargin=1.5em}
-	\lstinputlisting[morekeywords={Object, String, bool},basewidth=0.52em]{./code/moti-mutant.c}
-     \end{subfigure}
+    \centering
+    \begin{subfigure}{0.48\linewidth}
+        \begin{subfigure}{\linewidth}
+            \lstset{
+                style=mystyle,
+                numbers = left,
+                xleftmargin=2em,
+                frame=single,
+                framexleftmargin=1.5em,
+                basicstyle=\ttfamily\small,
+                breaklines=true,
+                tabsize=2,
+                columns=fullflexible,
+                numberstyle=\tiny\color{gray}
+            }
+            \lstinputlisting[morekeywords={Object, String, bool},basewidth=0.55em]{./code/originalcode}
+        \end{subfigure}
 
-     \vspace*{-4pt}
-     \quad\quad\quad\quad \quad\quad\quad\quad \quad\quad\quad\quad $\boldsymbol{\downarrow}$ \textit{\texttt{compiled to}} \\
-     \vspace*{-4pt}
-     
-     \begin{subfigure}{\linewidth} 
-	\lstset{style=mystyle, numbers = left, xleftmargin=2em,frame=single,framexleftmargin=1.5em}
-	\lstinputlisting[morekeywords={Object, String, bool},basewidth=0.52em]{./code/moti-mutantcompiled.c}
-	
+        \vspace*{-4pt}
+        \quad\quad\quad\quad \quad\quad\quad\quad \quad\quad
+        $\boldsymbol{\downarrow}$ \textit{\texttt{prompt generation}} \\
+        \vspace*{-4pt}
+
+        \begin{subfigure}{\linewidth}
+            \centering
+            \fbox{\parbox{0.9\linewidth}{
+                \small Treat consecutive identical characters in a string as a segment. If the segment length is greater than 2, output "-" followed by that character; otherwise, output the corresponding number of "\_" characters followed by that character.
+            }}
+
+            \vspace*{6pt}
+
+            \quad\quad
+            $\boldsymbol{\downarrow}$ \textit{\texttt{benchmarking}} \\
+            \vspace*{6pt}
+
+            \centering
+            \begin{tabular}{|c|c|}
+                \hline
+                \textbf{Qwen2.5-14B} & \textcolor{red}{WrongAnswer} \\
+                \hline
+                \textbf{Qwen2.5-14B-contaminated} & \textcolor{ForestGreen}{AC} \\
+                \hline
+                \textbf{Gemini-2.5} & \textcolor{ForestGreen}{AC} \\
+                \hline
+            \end{tabular}
+        \end{subfigure}
+        \caption{Original task}
+        \label{fig:moti:ori}
     \end{subfigure}
-     \caption{}    
-     \label{fig:moti:ori}
+    \hfill
+    \begin{subfigure}{0.48\linewidth}
+        \begin{subfigure}{\linewidth}
+            \lstset{
+                style=mystyle,
+                numbers = left,
+                xleftmargin=2em,
+                frame=single,
+                framexleftmargin=1.5em,
+                basicstyle=\ttfamily\small,
+                breaklines=true,
+                tabsize=2,
+                columns=fullflexible,
+                numberstyle=\tiny\color{gray}
+            }
+            \lstinputlisting[morekeywords={Object, String, bool},basewidth=0.55em]{./code/mutationcode}
+        \end{subfigure}
+
+        \vspace*{-4pt}
+        \quad\quad\quad\quad \quad\quad\quad\quad \quad\quad $\boldsymbol{\downarrow}$ \textit{\texttt{prompt generation}} \\
+        \vspace*{-4pt}
+
+        \begin{subfigure}{\linewidth}
+            \centering
+            \fbox{\parbox{0.9\linewidth}{
+                \small Treat consecutive elements in a numerical sequence {\color{blue}that are all outliers (deviation from median > MAD)} or all normal as a segment. If the segment length is greater than 2, {\color{blue}output "=" (outlier) or "-" (normal) followed by that element}; otherwise, output the corresponding number of {\color{blue}"*" (outlier) or "\_" (normal) followed by that element}.
+            }}
+
+            \vspace*{6pt}
+
+            \quad\quad
+            $\boldsymbol{\downarrow}$ \textit{\texttt{benchmarking}} \\
+
+            \vspace*{6pt}
+            \centering
+            \begin{tabular}{|c|c|}
+                \hline
+                \textbf{Qwen2.5-14B} & \textcolor{red}{WrongAnswer} \\
+                \hline
+                \textbf{Qwen2.5-14B-contaminated} & \textcolor{red}{WrongAnswer} \\
+                \hline
+                \textbf{Gemini-2.5} & \textcolor{ForestGreen}{AC} \\
+                \hline
+            \end{tabular}
+        \end{subfigure}
+        \caption{Mutated by Claude-4}
+        \label{fig:moti:mut}
     \end{subfigure}
-    \vspace*{-5pt}
-    \,
-    \begin{subfigure}{0.475\linewidth} 
-     \begin{subfigure}{\linewidth} 
-	\lstset{style=mystyle, numbers = left, xleftmargin=2em,frame=single,framexleftmargin=1.5em}
-	\lstinputlisting[morekeywords={Object, String, bool},basewidth=0.52em]{./code/moti-seed.c}
-     \end{subfigure}
-     
-      \vspace*{-4pt}
-     \quad\quad\quad\quad \quad\quad\quad\quad \quad\quad\quad\quad $\boldsymbol{\downarrow}$ \textit{\texttt{compiled to}} \\
-     \vspace*{-4pt}
-     
-     \begin{subfigure}{\linewidth} 
-	\lstset{style=mystyle, numbers = left, xleftmargin=2em,frame=single,framexleftmargin=1.5em}
-	\lstinputlisting[morekeywords={Object, String, bool},basewidth=0.52em]{./code/moti-seedcompiled.c}
-     \end{subfigure}
- 	\caption{}
-	\label{fig:moti:mut}
-    \end{subfigure}
-    \vspace*{-5pt}
-	\caption{placehoolder}
-\vspace{-4pt}
-	\label{fig:moti}
+
+    \caption{Original task (left) and mutated task (right).}
+    \Description{A side-by-side comparison of an original HumanEval task and its mutated variant. Each side shows source code, a natural-language prompt, and a small table of model results.}
+    \vspace{4pt}
+    \label{fig:moti}
 \end{figure*}
+
+Programming tasks with slightly altered functionality can mitigate data contamination. Models that rely primarily on memorization---that is, models that are contaminated---tend to emit the pre-mutation canonical solution. Because the output of the original code differs from that of the mutated code on the same inputs, such memorized solutions fail the test cases. In contrast, uncontaminated models can generalize their competence to related programming tasks: if they can solve the original problem, they can usually still produce the correct answer after a controlled mutation. Therefore, their scores on mutated tasks remain close to their scores in an uncontaminated setting.
+
+If the strong performance of a large code-generation model on a benchmark truly generalizes, the model should still be able to answer mutated benchmark questions and should also possess the ability to generate such mutations. Figure~\ref{fig:moti} illustrates an example in which Claude leverages this capability to help us conduct an evaluation that mitigates data contamination. First, it mutates the canonical solution of HumanEval~104 to alter its functionality. Second, we construct a prompt that instructs LCGMs to generate the mutated code and then obtain the resulting task for benchmarking. An overfitted model such as Qwen2.5-14B-contaminated, constructed by us, tends to return the original canonical solution, but the original ground truth yields an incorrect answer because its outputs differ from those of the mutated code under the same input. Repeating this procedure produces a new evaluation in which the per-task scores of Qwen2.5-14B and its contaminated counterpart are discussed in Section~\ref{sec:experiment}. The results on \tool{} exhibit a higher correlation between the clean model and the contaminated model, which means that our method can evaluate models more cleanly.
+
+To the best of our knowledge, we are the first to use an LLM-driven dynamic benchmark to mitigate the impact of data contamination. Our method does not require the evaluated model to be open-source, nor does it require repeated sampling to obtain an output distribution. The mutation strategy is flexible, fully automated, and becomes more adaptive as model capabilities improve.
+
+\subsection{Challenges}
+
+\textbf{Challenge 1: How can we ensure that the mutated task remains related to the original task?} This is crucial, because if the mutated task deviates too far from the original, uncontaminated models may fail questions they could originally answer (false positives), or contaminated models may happen to answer the mutated question correctly (false negatives). We constrain the scope of modification through multiple checks, including semantic-similarity and code-similarity filters. In addition, the prompt requires the function signature to remain unchanged, because the signature is often a concise description of the code's functionality; constraining it helps keep the task semantics stable. The effectiveness of keeping the function signature unchanged is validated in our ablation study.
+
+As discussing good regeneration in broad terms is both meaningless and impractical, we provide the following specific definition of \emph{good regeneration}: it is functionally distinct from, while semantically related to, the original task. We use the output-mutation filter, together with functional-input and executable constraints, to ensure that the regeneration tasks produced by LLMs are of high quality.
+
+
+\textbf{Challenge 2: How can we ensure that the test cases are consistent with the prompt?} Consistency between the test oracle and the task description is crucial: if the test cases deviate from the intended behavior of the mutated code, even uncontaminated models may be penalized unfairly. To address this, we embed all generated test cases directly into the problem statement, thereby aligning the evaluation oracle with the task description. This exposes the expected input--output behavior of the mutated code to the model, eliminating ambiguity and ensuring that the test cases faithfully reflect the intended functionality.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{pics/workflow.pdf}
+    \caption{High-level workflow of \tool{}.}
+    \Description{A flowchart showing the three stages of the framework: task mutation, prompt construction, and adversarial benchmarking with Elo-based rating.}
+    \label{fig:keycom}
+\end{figure*}
+
+\newtcolorbox{challengebox}[1]{
+    enhanced,
+    arc=4pt,
+    boxrule=0.6pt,
+    colframe=blue!55!black,
+    colback=blue!8!white,
+    coltitle=white,
+    colbacktitle=blue!55!black,
+    fonttitle=\bfseries\sffamily,
+    title=#1,
+    before skip=8pt,
+    after skip=8pt,
+    left=8pt,
+    right=8pt,
+    top=4pt,
+    bottom=4pt,
+    drop shadow={black!15!white}
+}
+
+\label{sec:challenges}
+
+\section{The \tool{} Framework}
+
+\subsection{Overview}
+
+In this section we present a high-level workflow of our approach. The design overview of \tool{} is shown in Figure~\ref{fig:keycom}. \tool{} accepts a seed task as input and generates a new programming task through an LLM acting as the Attacker.
+
+The workflow consists of three key steps:
+
+
+
+\begin{enumerate}
+\item \textbf{Code Mutation.} First, \tool employs a code-first strategy where the Attacker LLM mutates the canonical solution of original task to create functional divergence. By prioritizing the mutation of the execution logic over natural language, we ensure that the new task possesses a verifiable, objective difference from the base problem, providing a solid foundation for detecting data contamination.
+
+\item \textbf{Test Oracle and Prompt Construction.} \tool then automatically generates test cases based on the mutated code, which serve as the new task's test oracle. These test cases are embedded directly into the problem statement, transforming it into a self-contained prompt that guides the Defender LLMs to implement the required functionality. This approach eliminates linguistic ambiguity and ensures that the evaluation is grounded in functional correctness rather than pattern recognition. By leveraging the test cases as the primary source of information for the task, we align with the Test-Driven Development (TDD) paradigm, where implementation is guided by functional constraints, ultimately reducing the burden of prompt engineering for practitioners in real-world applications.
+
+\item \textbf{Benchmarking and Rating.} Finally, the Defender LLMs are evaluated on the newly generated tasks. The outcomes of these evaluations are fed into an Elo-based rating system that dynamically updates the ratings of both the Attacker and the Defender. The Attacker rating quantifies each model's ability to synthesize challenging yet valid task variants, while the Defender rating measures each model's ability in solving the generated tasks.
+\end{enumerate}
+
+By transforming the static ``Question--Answer'' paradigm into a dynamic ``Setter--Solver'' ecosystem, \tool{} effectively mitigates the impact of data contamination while ensuring a high-throughput, automated, and trustworthy evaluation of LCGMs.
+
+\subsection{Task Generation}
+\label{sec:taskgen}
+
+Here we discuss the details of how the Attacker generates a new task in Step~2. To preserve consistency between the ground truth and the statement of a task, we construct a pipeline to generate and verify mutation code, summarized in Algorithm~\ref{alg:mutation}.
+
+The key challenges are: (1) generating high-quality mutated problems, and (2) generating consistent test cases. Existing approaches such as AutoCode use LLMs to address both challenges and additionally use LLMs to verify the consistency between the generated problem and the generated test cases. However, they cannot guarantee consistency. Our idea is different: given a problem and its oracle code, we mutate the code and then use the mutated code to generate test cases, which guarantees consistency by construction. To further guarantee consistency between the new problem statement and the mutated code, we include concrete test cases in the problem statement.
+
+\textbf{Code Mutation.} We instruct LLMs to perform an open-ended generative task, requiring the production of a comprehensive implementation based on a modified programming specification. To ensure the mutated tasks retain semantic proximity to the original problems, we impose several constraints on the mutation. This alignment is critical for accurately detecting data contamination in the Defender model while upholding the integrity of our problem-perturbation framework.
+
+We consider a mutation to be valid only when the proportion of output differences between the generated code and the original code, given the same input, exceeds a calibrated threshold. The reason is that a mutation must produce a functionally distinct task; otherwise, contaminated models can still retrieve the original solution from their parameters and pass the test cases. Existing perturbation methods often fall into this trap by making only cosmetic changes. The constraint prompt is designed to limit the scope of modifications so that LLMs do not produce computationally infeasible problems (for example, NP-hard tasks with large-scale inputs). The effectiveness of these constraints is validated in our ablation study.
+
+\textbf{Task Statement Construction.} A task statement serves as the prompt that instructs LLMs to generate code for implementing a specific function. However, precisely articulating a code segment's functionality through natural language remains non-trivial. To address this, we incorporate comprehensive test cases into the problem statement while streamlining functional descriptions and input specifications.
+
+This strategy yields two primary advantages. First, it enables models to infer the wanted semantics of test oracles directly from test cases, thereby mitigating false positives arising from linguistic ambiguities. Although this may result in accepted implementations that are not functionally identical to the ground truth (i.e., the mutated code), this is not problematic because it is fair for all evaluated models. Second, this paradigm aligns with the Test-Driven Development (TDD) intuition~\cite{beck2002test}, where implementation is guided by functional constraints, ultimately reducing the burden of prompt engineering for practitioners in real-world applications.
+
+The idea of using test cases as prompts has long been proposed~\cite{chen2021evaluating}. In our work, we push this idea further by including all generated test cases in the problem statement. Our empirical observation is that modern LLMs are sufficiently aligned with human preferences that they rarely resort to hard-coded cheating, such as printing expected outputs instead of implementing the function. We discuss this behavior in the experimental section.
+
+\begin{algorithm}[h]
+\caption{Task Mutation}
+\label{alg:mutation}
+\begin{algorithmic}[1]
+\Require{Base problem $P_{base}$, initial variant $P_{var}$, attacker LLM $Model$, max attempts $N$}
+\Ensure{A high-quality structural problem or $\mathit{None}$}
+
+\State $attempt \gets 0$
+\While{$attempt < N$}
+    \State $M \gets \text{CodeMerge}(P_{base}, P_{var}, Model)$ \Comment{\textnormal{LLM generates the mutated code}}
+
+    \If{$M$ is successfully generated}
+        \State $Res_{base} \gets \text{Execute}(P_{base})$ \Comment{\textnormal{Execution result of original task}}
+        \State $Res_{mutated} \gets \text{Execute}(M)$ \Comment{\textnormal{Execution result of mutated task}}
+
+        \If{$\text{VerifyChange}(Res_{base}, Res_{mutated})$} \Comment{\textnormal{Checks functional divergence}}
+            \State $M.\text{result}_{base} \gets Res_{base}$
+            \State \Return $\text{CreateStructuralProblem}(Model, M)$
+        \Else
+            \State \texttt{Log: "Ineffective mutation (no behavioral change)."}
+        \EndIf
+    \Else
+        \State \texttt{Log: "Generation failed."}
+    \EndIf
+
+    \State $P_{var} \gets \text{GetNextSeed}(P_{var})$ \Comment{\textnormal{Iterate to next task in HumanEval}}
+    \State $attempt \gets attempt + 1$
+\EndWhile
+
+\State \Return $\mathit{None}$ \Comment{\textnormal{Max attempts reached without valid mutation}}
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Holistic Evaluation}
+\label{sec:holistic}
+
+We assess model proficiency along two complementary dimensions. On the one hand, tasks synthesized by LLMs preserve the validity of the evaluation by establishing a contamination-free setting, thereby effectively decoupling test cases from any potentially leaked training data. On the other hand, the sophistication and rigor of the generated tasks serve as key indicators of a model's underlying generalization capabilities. Consequently, if a model's performance is artificially inflated by data contamination, its inherent limitations will be reflected in a substantial decline in both problem synthesis and problem-solving performance.
+
+Following the pairwise adversarial matches, we conduct a holistic evaluation to aggregate the granular historical outcomes into global robustness profiles.
+
+\subsubsection*{Problem Formulation}
+
+Let $\mathcal{M}$ and $\mathcal{T}$ denote the set of all evaluated models and generated programming tasks, respectively. The outcome of the $n$-th adversarial match is formulated as a tuple:
+\begin{equation}
+\mathcal{P}^{(n)} = \left( M, p, S(M), S(p) \right)
+\end{equation}
+where $M \in \mathcal{M}$ represents the defending model, $p \in \mathcal{T}$ represents the attacking task, and $S$ denotes the respective score obtained by each participant during this specific encounter. For a historical sequence of $n$ matches $\mathcal{H}^{(n)} = \{ \mathcal{P}^{(1)}, \mathcal{P}^{(2)}, \dots, \mathcal{P}^{(n)} \}$, the skill ratings of both models and tasks evolve dynamically.
+
+\subsubsection*{Dynamic Rating Evolution}
+
+We track the multi-agent competition by recursively updating the Attacker Rating $\operatorname{Att}^{(n)}(p)$ and the Defender Rating $\operatorname{Def}^{(n)}(M)$. When the $n$-th match occurs, the ratings are updated via an Elo-based function $\operatorname{Elo}(\cdot)$:
+
+\begin{align}
+\operatorname{Att}^{(n)}(p) &= \operatorname{Att}^{(n-1)}(p) \nonumber \\
+&\quad + \mathbb{1}(p \in \mathcal{P}^{(n)}) \cdot \operatorname{Elo}\left(\operatorname{Att}^{(n-1)}(p), \operatorname{Def}^{(n-1)}(M), \mathcal{P}^{(n)}\right) \label{eq:attUpdate} \\[1.5ex]
+\operatorname{Def}^{(n)}(M) &= \operatorname{Def}^{(n-1)}(M) \nonumber \\
+&\quad + \mathbb{1}(M \in \mathcal{P}^{(n)}) \cdot \operatorname{Elo}\left(\operatorname{Def}^{(n-1)}(M), \operatorname{Att}^{(n-1)}(p), \mathcal{P}^{(n)}\right) \label{eq:defUpdate}
+\end{align}
+where $\mathbb{1}(\cdot)$ is an indicator function that equals 1 if the entity participates in match $\mathcal{P}^{(n)}$ and 0 otherwise. The $\operatorname{Elo}(\cdot)$ function computes the rating shift based on the gap between the expected match outcome and the actual score recorded in $\mathcal{P}^{(n)}$.
+
+\subsubsection*{Holistic Robustness Score}
+
+Ultimately, the overall capability profile of a model $M$ after $n$ historical updates is summarized by its Comprehensive Rating $\operatorname{R}^{(n)}(M)$. This metric complements absolute defense ability with the average difficulty of the challenges it has interacted with:
+\begin{equation}
+\operatorname{R}^{(n)}(M) = \operatorname{Def}^{(n)}(M) + \frac{1}{|\mathcal{T}(M)|} \sum_{p \in \mathcal{T}(M)} \operatorname{Att}^{(n)}(p) \label{eq:finalRating}
+\end{equation}
+where $\mathcal{T}(M) \subseteq \mathcal{T}$ represents the subset of adversarial tasks that have historical interactions with model $M$.
+
+We assign an initial score of 1,000 to each model and then analyze the result of each head-to-head match individually. When an Attacker defeats a model with a higher score, it earns more points, while the Defender loses more points or gains fewer points accordingly. The advantage of this approach is that it simultaneously rewards both the ability to solve hard problems and the ability to synthesize hard problems that expose weaknesses in other models.
